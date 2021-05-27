@@ -93,7 +93,7 @@ let createDiv = function() {
 
 let changedSelectedValue = function() { 
     var selectBoxVal = $('#animals-select').find(":selected").val();
-    var animalId = selectBoxVal.substring(0, 1) - 1;
+    var animalId = selectBoxVal.substring(0, 2) - 1;
     var animalNote = animalArr[animalId].note;
     return animalNote;
 }
