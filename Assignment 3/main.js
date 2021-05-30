@@ -1,6 +1,7 @@
-//This is my array that I will populate with the JSON data 
-let animalArr = [ 
+let animalArr = [
 ];
+
+const server = "http://localhost:3000/";
 
 //call it like 
 // setAttributes(elem, {["KEY"]:["VALUE"]})
@@ -44,27 +45,37 @@ let createDiv = function() {
 //Function to get the note associated with the select box value IE 1 Tiger - > 1 looks into array for ID 1 and gets the note 
 let changedSelectedValue = function() { 
     var selectBoxVal = $('#animals-select').find(":selected").val();
-    var animalId = selectBoxVal.substring(0, 2) - 1;
-    var animalNote = animalArr[animalId].note;
+    var animalNote = "";
+    if (selectBoxVal != null) { 
+      var animalId = selectBoxVal.substring(0, 2) - 1;
+      animalNote = animalArr[animalId].note;
+    }
     return animalNote;
 }
 
-//My attempted trial to parse the data and see if it was working properly 
-let fillArray = function() { 
-fetch('https://github.com/Roninjayden/Roninjayden.github.io/data.json')
-  .then(response => response.json())
-  .then(data => console.log(data));
+//Parse through the running web server to get the json elements and populate the arr. 
+//calls crete div to then properly construct the remaining page
+let fillArray = async function() { 
+  for (var i = 1; i <= 10; i ++) {
+    var response = await fetch(server + i); //http://localhost:3000/[i]
+    var data = await response.json();
+    createAnimal(data.id, data.title, data.note);
   }
+  createDiv();
+}
+
 /**
 * Logic to create the task with proper formatting 
 */ 
 let createAnimal = function(id, title, note) { 
-    animalArr.push(
+    var elem =
     {
-        id : numTask,
+        id : parseInt(id),
         title: title,
         note : note
-    });
+    };
+    animalArr.push(elem);
+    return elem;
 }
 
 /**
@@ -72,7 +83,6 @@ let createAnimal = function(id, title, note) {
 */ 
 $(document).ready(function() { 
   fillArray();
-  //createDiv();
   $('#animals-select').change(function()   {
       var textInput = document.createElement("input");
       setAttributes(textInput, {"value": changedSelectedValue(), "readonly":"", "size": changedSelectedValue().length});
