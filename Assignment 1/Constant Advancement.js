@@ -59,6 +59,7 @@ let setAttributes = function(element, attributes) {
     }
 }
 
+//Generates the elements within the selector 
 let generateSelectElem = function(animal) { 
     var newOption = document.createElement("option");
     newOption.innerHTML = animal['id'] + animal['title'];
@@ -67,9 +68,7 @@ let generateSelectElem = function(animal) {
     return newOption;
 }
 
-/**
-* Main creation function  
-*/
+//Generates the selector itself to hold the elements 
 let createSelector = function() { 
     var newSelector = $("#animals").find("select");
     for (var i = 0; i < animalArr.length; i ++) { 
@@ -79,6 +78,7 @@ let createSelector = function() {
     return newSelector;
 }
 
+//Creates the Div to hold all of the elements 
 let createDiv = function() { 
     var newDiv = document.createElement("div");
     var label = $("label[for='animals-select']");
@@ -91,6 +91,7 @@ let createDiv = function() {
 
 }
 
+//Function to check for the select box value 
 let changedSelectedValue = function() { 
     var selectBoxVal = $('#animals-select').find(":selected").val();
     var animalId = selectBoxVal.substring(0, 2) - 1;
@@ -103,6 +104,7 @@ let changedSelectedValue = function() {
 */ 
 $(document).ready(function() { 
     createDiv();
+    console.log(animalArr);
     $('#animals-select').change(function()   {
         var textInput = document.createElement("input");
         setAttributes(textInput, {"value": changedSelectedValue(), "readonly":"", "size": changedSelectedValue().length});
